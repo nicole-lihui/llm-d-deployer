@@ -95,13 +95,15 @@ data:
                     fieldRef:
                       apiVersion: v1
                       fieldPath: status.podIP
-                - name: LMCACHE_DISTRIBUTED_URL
-                  value: ${POD_IP}:8200
                 - name: UCX_TLS
                   value: "^cuda_ipc"
                 {{- if .Values.redis.enabled }}
+                - name: LMCACHE_DISTRIBUTED_URL
+                  value: ${POD_IP}:8200
+                - name: LMCACHE_ENABLE_P2P
+                  value: "true"
                 - name: LMCACHE_LOOKUP_URL
-                  value: {{ include "redis.master.service.fullurl" .}}
+                  value: {{ include "redis.master.service.fullurl" . }}
                 {{- end }}
                 {{ `{{- if .HFModelName }}` }}
                 - name: HF_HUB_CACHE
@@ -196,13 +198,15 @@ data:
                     fieldRef:
                       apiVersion: v1
                       fieldPath: status.podIP
-                - name: LMCACHE_DISTRIBUTED_URL
-                  value: ${POD_IP}:8200
                 - name: UCX_TLS
                   value: "^cuda_ipc"
                 {{- if .Values.redis.enabled }}
+                - name: LMCACHE_DISTRIBUTED_URL
+                  value: ${POD_IP}:8200
+                - name: LMCACHE_ENABLE_P2P
+                  value: "true"
                 - name: LMCACHE_LOOKUP_URL
-                  value: {{ include "redis.master.service.fullurl" .}}
+                  value: {{ include "redis.master.service.fullurl" . }}
                 {{- end }}
                 {{ `{{- if .HFModelName }}` }}
                 - name: HF_HUB_CACHE

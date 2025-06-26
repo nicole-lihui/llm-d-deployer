@@ -90,10 +90,6 @@ data:
                   valueFrom:
                     fieldRef:
                       fieldPath: status.podIP
-                - name: LMCACHE_DISTRIBUTED_URL
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: status.podIP
                 - name: UCX_TLS
                   value: "^cuda_ipc"
                 - name: LMCACHE_ENABLE_DEBUG
@@ -106,8 +102,14 @@ data:
                   value: "10"
                 - name: LMCACHE_CHUNK_SIZE
                   value: "256"
+                {{- if .Values.redis.enabled }}
+                - name: LMCACHE_DISTRIBUTED_URL
+                  value: ${POD_IP}:8200
+                - name: LMCACHE_ENABLE_P2P
+                  value: "true"
                 - name: LMCACHE_LOOKUP_URL
                   value: {{ include "redis.master.service.fullurl" . }}
+                {{- end }}
                 {{- if ne .Values.redis.auth.enabled false }}
                 - name: LMCACHE_REDIS_PASSWORD
                   valueFrom:
@@ -205,10 +207,6 @@ data:
                   valueFrom:
                     fieldRef:
                       fieldPath: status.podIP
-                - name: LMCACHE_DISTRIBUTED_URL
-                  valueFrom:
-                    fieldRef:
-                      fieldPath: status.podIP
                 - name: UCX_TLS
                   value: "^cuda_ipc"
                 - name: LMCACHE_ENABLE_DEBUG
@@ -221,8 +219,14 @@ data:
                   value: "10"
                 - name: LMCACHE_CHUNK_SIZE
                   value: "256"
+                {{- if .Values.redis.enabled }}
+                - name: LMCACHE_DISTRIBUTED_URL
+                  value: ${POD_IP}:8200
+                - name: LMCACHE_ENABLE_P2P
+                  value: "true"
                 - name: LMCACHE_LOOKUP_URL
                   value: {{ include "redis.master.service.fullurl" . }}
+                {{- end }}
                 {{- if ne .Values.redis.auth.enabled false }}
                 - name: LMCACHE_REDIS_PASSWORD
                   valueFrom:
